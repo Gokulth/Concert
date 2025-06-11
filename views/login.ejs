@@ -1,0 +1,37 @@
+
+<h1 style="text-align: center;margin-top: 30px;font-weight: 500;font-style: normal;">LOGIN</h1>
+<form action="/login" method="post">
+    <div style="width: 350px;height: 500px;margin: auto;margin-top: 50px;">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+    </div>
+     
+    <div class="form-group">
+        <label for="exampleInputPassword1">don't have an account? <a href="/signup">Signup</a></label>
+      </div>
+
+
+    <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+  </form>
+  <% if (message) {%>
+    <div>
+      <ul>
+      <li style="color: red;"> <%= message %> </li>
+      </ul>
+    </div>
+  
+  <% } %>
+  <% if (errors && errors.length > 0) { %>
+    <ul>
+        <% errors.forEach(function(error) { %>
+            <li style="color: red;"> <%= error.msg %> </li>
+        <% }); %>
+    </ul>
+<% } %>
+ 

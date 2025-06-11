@@ -1,0 +1,114 @@
+
+
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Booking Details</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <% bookings.forEach(booking => { %>
+       <% const qrData = encodeURIComponent(
+          `Event: ${booking.concertId?.eventName}\n` +
+          `User: ${booking.username}\n` +
+          `Email: ${booking.email}\n` +
+          `Tickets: ${booking.ticketQuantity}\n` +
+          `date: ${booking.concertId?.date}\n` +
+          `venue:${booking.concertId?.eventPlace}`
+        ); %>
+        <div class="col">
+          <div class="card shadow h-100">
+            <!-- Concert Image -->
+            <img src="<%= booking.concertId?.image || 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="Concert Image">
+  
+            <div class="card-body">
+              <h5 class="card-title text-primary"><%= booking.concertId?.eventName %></h5>
+              <p class="card-text">
+                <strong>User:</strong> <%= booking.username %><br>
+                <strong>Email:</strong> <%= booking.email %><br>
+                <strong>Venue:</strong> <%= booking.concertId?.eventPlace %><br>
+                <strong>Date:</strong> <%= new Date(booking.concertId?.date).toLocaleDateString('en-GB') %><br>
+                <strong>Tickets:</strong> <%= booking.ticketQuantity %><br>
+                <strong>Total:</strong> $<%= booking.total_amount %>
+              </p>
+            </div>
+
+            
+  
+            <div class="card-footer   gap-5">
+              
+             
+              <a href="/users/bookings/pdf/<%= booking._id %>" class="btn btn-danger " style="float: right;">Download PDF</a>
+              <button class="btn btn-success " style="float: left;" onclick="toggleQRCode('<%= booking._id %>')">QR Code</button>
+              <div id="qr-<%= booking._id %>" style="display:none;" class="mt-2">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?data=<%= qrData %>&size=150x150" alt="QR Code">
+              </div>
+              
+              
+              
+            </div>
+          </div>
+        </div>
+      <% }) %>
+      
+      
+    </div>
+    
+  </div><br>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      
+      <% if (pagination.hasPrevPage) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=1" aria-label="First">
+            <span aria-hidden="true">&laquo;&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= pagination.prevPage %>" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      <% } else { %>
+        <li class="page-item disabled"><span class="page-link">&laquo;&laquo;</span></li>
+        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+      <% } %>
+  
+      <% for (let page_number = 1; page_number <= pagination.totalPages; page_number++) { %>
+        <li class="page-item <%= pagination.page === page_number ? 'active' : '' %>">
+          <a class="page-link" href="?page=<%= page_number %>"><%= page_number %></a>
+        </li>
+      <% } %>
+  
+      <% if (pagination.hasNextPage) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= pagination.nextPage %>" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= pagination.totalPages %>" aria-label="Last">
+            <span aria-hidden="true">&raquo;&raquo;</span>
+          </a>
+        </li>
+      <% } else { %>
+        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        <li class="page-item disabled"><span class="page-link">&raquo;&raquo;</span></li>
+      <% } %>
+  
+      
+      <li class="page-item">
+        <a class="page-link" href="/admin/alldetails">EVENTS</a>
+      </li>
+      
+    </ul>
+  </nav>
+  
+  </nav>
+ 
+  
+  <script>
+    function toggleQRCode(id) {
+      const qr = document.getElementById('qr-' + id);
+      qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';
+    }
+  </script>
+  
+  

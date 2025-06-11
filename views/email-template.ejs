@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Booking Confirmation</title>
+</head>
+<body>
+  <h2>Booking Confirmation</h2>
+  <% bookings.forEach(booking => { %>
+    <p><strong>User:</strong> <%= booking.username %></p>
+    <p><strong>Email:</strong> <%= booking.email %></p>
+    <p><strong>Event:</strong> <%= booking.concertId?.eventName %></p>
+    <p><strong>Venue:</strong> <%= booking.concertId?.eventPlace %></p>
+    <p><strong>Date:</strong> <%= new Date(booking.concertId?.date).toLocaleDateString('en-GB') %></p>
+    <p><strong>Tickets:</strong> <%= booking.ticketQuantity %></p>
+    <p><strong>Total:</strong> $<%= booking.total_amount %></p>
+    <h3>QR Code</h3>
+<img src="<%= qrCode %>" alt="QR Code" style="width:200px;height:200px;" />
+
+    <hr/>
+  <% }) %>
+</body>
+</html>

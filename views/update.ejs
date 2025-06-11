@@ -1,0 +1,69 @@
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>Update Events</h2>
+        </div>
+        <div class="card-body p-4">
+            <form action="/admin/update/<%= concert._id %>" method="POST" enctype="multipart/form-data">
+                
+                <!-- Event Name -->
+                <div class="mb-3">
+                    <label class="form-label">Event Name</label>
+                    <input type="text" name="eventName" class="form-control" value="<%= concert.eventName %>" required>
+                </div>
+
+                <!-- Event Place -->
+                <div class="mb-3">
+                    <label class="form-label">Event Place</label>
+                    <input type="text" name="eventPlace" class="form-control" value="<%= concert.eventPlace %>" required>
+                </div>
+
+                <!-- Date -->
+                <div class="mb-3">
+                    <label class="form-label">Date</label>
+                    <input type="date" name="date" class="form-control" value="<%= concert.date.toISOString().substring(0, 10) %>" required>
+                </div>
+
+                <!-- Time -->
+                <div class="mb-3">
+                    <label class="form-label">Time</label>
+                    <input type="time" name="time" class="form-control" value="<%= concert.time %>" required>
+                </div>
+
+                <!-- Available Tickets -->
+                <div class="mb-3">
+                    <label class="form-label">Available Tickets</label>
+                    <input type="number" name="available_ticket" class="form-control" value="<%= concert.available_ticket %>" required>
+                </div>
+
+                <!-- Amount -->
+                <div class="mb-3">
+                    <label class="form-label">Amount (₹)</label>
+                    <input type="number" name="amount" class="form-control" value="<%= concert.amount %>" required>
+                </div>
+
+                <!-- Upload Image -->
+                <div class="mb-3">
+                    <label class="form-label">Upload New Image</label>
+                    <input type="file" name="image" class="form-control">
+                </div>
+
+                <!-- Existing Image Display -->
+                <% if (concert.image) { %>
+                    <div class="mb-3 text-center">
+                        <img src="<%= concert.image %>" alt="Current Image" class="img-thumbnail" style="width: 200px;">
+                    </div>
+                <% } %>
+
+                <!-- Hidden Input to Preserve Existing Image Path -->
+                <input type="hidden" name="existingImagePath" value="<%= concert.image %>">
+
+                <!-- Submit Button -->
+                <div class="text-center mt-4 mb-4">
+                    <button type="submit" class="btn btn-success px-5">Update Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><br><br>

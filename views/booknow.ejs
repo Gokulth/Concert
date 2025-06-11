@@ -1,0 +1,125 @@
+<style>
+  #custom-btn {
+    background:  #2575fc;
+    color: white;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 200px; /* Increased width */
+    margin-left: 40%;
+}
+
+#custom-btn:hover {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+</style>
+
+<div>
+
+  
+  <div class="card-deck" style="margin: 100px;margin-top: 20px;">
+    
+    <div class="card">
+      <h3 class="text-uppercase text-danger mb-3 text-center"><%= concert.eventName %></h3>
+        <img src="<%= concert.image %>" alt="Concert Image" >
+      <div class="card-body">
+        <h6 class="card-title"><%= concert.eventName %></h6>
+        <p class="text-muted"><%= concert.eventPlace %></p>
+        <p class="small"><strong>🗓 <%= concert.date %></strong></p>
+        <p class="small"><strong>⏰ <%= concert.time %></strong></p>
+        <p>
+            <span class="badge bg-success">🎟 <%= concert.available_ticket %></span> 
+            <span class="badge bg-primary">$<%= concert.amount %></span>
+           
+           
+        </p>
+        <p>
+          <a class="btn btn-primary btn-lg btn-block" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Book Now
+          </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+         
+                      
+                  
+              <div class="modal-body">
+                <div class="container d-flex justify-content-center mt-5">
+                  <div class="card shadow-sm mb-4" style="width: 40rem;">
+                      <div class="card-header bg-primary text-white">
+                          <h5 class="text-center">Book Tickets for <%= concert.eventName %></h5>
+                      </div>
+                      <div class="card-body">
+                          <form id="bookingForm" method="post" action="/users/bookings/<%= concert._id %>">
+                              <!-- Hidden Inputs -->
+                              <input type="hidden" id="ticketPrice" value="<%= concert.amount %>">
+                              <input type="hidden" name="eventName" value="<%= concert.eventName %>">
+                              
+                              <!-- Username -->
+                              <div class="mb-3">
+                                  <label for="username" class="form-label">Username:</label>
+                                  <input type="text" class="form-control-plaintext" name="username" id="username" required value="<%= username %>">
+                              </div>
+              
+                              <!-- Email -->
+                              <div class="mb-3">
+                                  <label for="email" class="form-label">Email:</label>
+                                  <input type="email" class="form-control-plaintext" name="email" id="email" required readonly value="<%= email %>">
+                              </div>
+              
+                              <!-- Date -->
+                              <div class="mb-3">
+                                  <label for="date" class="form-label">Date:</label>
+                                  <input type="text" class="form-control-plaintext" name="date" id="date" required readonly value="<%= new Date(concert.date).toLocaleDateString('en-GB') %>
+                                  ">
+                              </div>
+              
+                              <!-- Time -->
+                              <div class="mb-3">
+                                  <label for="time" class="form-label">Time:</label>
+                                  <input type="text" class="form-control-plaintext" name="time" id="time" required readonly value="<%= concert.time %>">
+                              </div>
+              
+                              <!-- Ticket Selection -->
+                              <div class="mb-3">
+                                  <label for="ticketQuantity" class="form-label">Select Number of Tickets</label>
+                                  <select class="form-select" id="ticketQuantity" name="ticketQuantity" required>
+                                      <% const a=Math.min(3,concert.available_ticket) %>
+                                      <% for(let i = 1; i <= a; i++) { %>
+                                          <option value="<%= i %>"><%= i %></option>
+                                      <% } %>
+                                  </select>
+                              </div>
+              
+                              <!-- Display Total Amount -->
+                              <div class="mb-3">
+                                  <label for="totalAmount" class="form-label">Amount:</label>
+                                  <input type="text" class="form-control" id="totalAmount" name="totalAmount" readonly>
+                              </div>
+                          
+                      </div>
+                      <div >
+                          <button type="submit" id="custom-btn" form="bookingForm" class="btn btn-primary btn-lg custom-btn" style="margin-left: 40%;margin-bottom: 10px;">pay</button>
+                      </div><br>
+                    </form><br>
+                  </div>
+              </div>
+              
+              
+              </div>
+          </div>
+      </div>
+      </div>
+      
+       
+        </div>
+    </div>
+     
+    </div>
+
+    <script src="/javascripts/bookings.js"></script>

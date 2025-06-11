@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concert List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-weight: bold;
+            color: #343a40;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+            background: white;
+            width: 95%;
+            margin: auto;
+        }
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        .card img {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            height: 100px;
+            object-fit: cover;
+        }
+        .card-body {
+            padding: 10px;
+            text-align: center;
+        }
+        .card-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        .text-muted {
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+        .badge {
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 5px;
+        }
+        .btn-sm {
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+        .no-events {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #dc3545;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 style="text-decoration: underline;">EVENTS</h1>
+
+    <% if(data.length > 0) { %>
+        <div class="row">
+            <% data.forEach(concert => { %>
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <% if (concert.image) { %>
+                                <img src="<%= concert.image %>" alt="Concert Image">
+                            <% } %>
+                            <h6 class="card-title"><%= concert.eventName %></h6>
+                            <p class="text-muted"><%= concert.eventPlace %></p>
+                            <p class="small"><strong>🗓 <%= concert.date %></strong></p>
+                            <p class="small"><strong>⏰ <%= concert.time %></strong></p>
+                            <p>
+                                <span class="badge bg-success">🎟 <%= concert.available_ticket %></span> 
+                                <span class="badge bg-primary">$<%= concert.amount %></span>
+                            </p>
+                            <!-- Delete Button -->
+                            <form action="/admin/delete_event/<%= concert._id %>" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">🗑️ Delete</button>
+                            </form>
+                            <!-- Update Button -->
+                            <a href="/admin/update/<%= concert._id %>" class="btn btn-warning btn-sm">✏️ Update</a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <p class="no-events">No Events Found </p>
+    <% } %>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
